@@ -48,11 +48,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: my-artifacts
-        path: ~/new/**/*
+        path: ~/new/**/*,~/target/*
 
 
-    - name: Upload artifact
-      - uses: actions/upload-artifact@v4
-      with:
-        name: spring-boot
-        path: ~/target/*
