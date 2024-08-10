@@ -41,9 +41,18 @@ jobs:
         pwd
         mkdir -p ~/new/artifact
         echo hello > ~/new/artifact/world.txt
+        echo ${{ env.name }} >> ~/new/artifact/world.txt
+        echo ${{ github.workspace }} >> ~/new/artifact/world.txt
         pwd >> ~/new/artifact/world.txt
 
     - uses: actions/upload-artifact@v4
       with:
         name: my-artifacts
         path: ~/new/**/*
+
+
+    - name: Upload artifact
+      - uses: actions/upload-artifact@v4
+      with:
+        name: spring-boot
+        path: ~/target/*
