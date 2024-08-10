@@ -36,7 +36,13 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - name: debug
+      run: |
+        pwd
+        mkdir -p ~/new/artifact
+        echo hello > ~/new/artifact/world.txt
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: my-artifacts
+        path: ~/new/**/*
