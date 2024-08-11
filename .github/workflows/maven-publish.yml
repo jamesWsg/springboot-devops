@@ -16,7 +16,7 @@ on:
     types: [created]
 
 jobs:
-  build jar:
+  build-jar:
 
     runs-on: ubuntu-latest
     permissions:
