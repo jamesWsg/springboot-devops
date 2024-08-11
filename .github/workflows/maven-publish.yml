@@ -70,5 +70,5 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: shengguowu/devops:v0.0.1
+        tags: shengguowu/springboot:v0.0.1
 
