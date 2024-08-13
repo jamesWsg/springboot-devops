@@ -6,27 +6,26 @@ env:
     DOCKERHUB_USERNAME: dockerhub-secret:DOCKERHUB_USERNAME
 phases:
 
+  pre_build:
+    commands:
+      - echo "login to docker"
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+
   build:
     commands:
+
       - echo "构建开始"
       - mvn package
+
+      - echo "docker build , name is hardcoded, should improve"
+      - docker build -t shengguowu/springbootawspipeline:v0.2
+
 
   post_build:
     commands:
       - echo "构建后步骤开始"
-      # 在这里可以执行任何构建后步骤，例如运行测试或上传构建的工件
-
-
-  docker_login:
-    commands:
-      - echo "login to docker"
-      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
-  docker_build:
-    commands:
-      - echo "login to docker"
-      - docker build -t shengguowu/springbootawspipeline:v0.2
       - docker push shengguowu/springbootawspipeline:v0.2
-
+      # 在这里可以执行任何构建后步骤，例如运行测试或上传构建的工件
 
 artifacts:
   files:
