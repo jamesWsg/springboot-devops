@@ -18,7 +18,7 @@ phases:
       - mvn package
 
       - echo "docker build , name is hardcoded, should improve"
-      - docker build -t shengguowu/springbootawspipeline:v0.2
+      - docker build -t shengguowu/springbootawspipeline:v0.2 -f Dockerfile .
 
 
   post_build:
