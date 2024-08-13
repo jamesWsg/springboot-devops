@@ -1,22 +1,11 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "安装开始"
-      - apt-get update && apt-get install -y maven
-      - chmod +x mvnw
-      - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-  pre_build:
-    commands:
-      - echo "预构建开始"
-      # 在这里可以执行任何预构建步骤，例如环境检查
 
   build:
     commands:
       - echo "构建开始"
-      - ./mvnw package -DskipTests=true
+      - mvn package
 
   post_build:
     commands:
