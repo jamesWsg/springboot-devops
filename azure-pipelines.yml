@@ -28,5 +28,5 @@ steps:
     jdkVersionOption: 'default'
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
+    # testResultsFiles: '**/TEST-*.xml'  # no test result
     goals: 'package'
