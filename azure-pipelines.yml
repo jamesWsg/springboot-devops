@@ -28,6 +28,6 @@ steps:
     jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
     # Junit set to false，beacuse no test
-    # publishJUnitResults: false
-    # # testResultsFiles: '**/TEST-*.xml'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
     goals: 'package'
