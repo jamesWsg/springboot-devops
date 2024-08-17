@@ -25,7 +25,7 @@ steps:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: 'default'
+    jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
     # Junit set to false，beacuse no test
     # publishJUnitResults: false
