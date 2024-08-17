@@ -27,6 +27,7 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: 'default'
     jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    # testResultsFiles: '**/TEST-*.xml'  # no test result
+    # Junit set to false，beacuse no test
+    publishJUnitResults: false
+    # testResultsFiles: '**/TEST-*.xml'
     goals: 'package'
