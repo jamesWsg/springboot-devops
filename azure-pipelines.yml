@@ -21,8 +21,8 @@ pool:
 
 
 variables:
-  dockerRegistryServiceConnection: dockerHub-connection
-  azure-connection: azure-aca-connection-sp
+  DOCKER_REGISTRY_CONNECTION: dockerHub-connection
+  AZURE_CONNECTION: azure-aca-connection-sp
   IMAGE_REPOSITORY: shengguowu/azure-devops
   DOCKERFILE_PATH: Dockerfile
   TAG: '$(Build.BuildId)'
@@ -37,7 +37,7 @@ stages:
 - stage: Build
   displayName: Build and push image
   jobs:
-  - job: maven build
+  - job: maven_build
     steps:
     - task: Maven@4
       inputs:
@@ -56,11 +56,11 @@ stages:
         command: buildAndPush
         repository: $(IMAGE_REPOSITORY)
         dockerfile: $(DOCKERFILE_PATH)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerRegistry: $(DOCKER_REGISTRY_CONNECTION)
         tags: |
           $(TAG)
 
-- stage: Deploy to azure container app
+- stage: Deploy_to_azure_container_app
   dependsOn: Build
   jobs:
   - job: Deploy
@@ -71,7 +71,7 @@ stages:
     - task: AzureContainerApps@1
       displayName: Deploy new container version
       inputs:
-        azureSubscription: 'azure-connection'
+        azureSubscription: '$(AZURE_CONNECTION)'
         imageToDeploy: '$(IMAGE_REPOSITORY):$(TAG)'
         containerAppName: '$(CONTAINERAPPS_APP)'
         resourceGroup: '$(RESOURCE_GROUP)'
