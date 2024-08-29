@@ -30,6 +30,7 @@ variables:
   CONTAINERAPPS_APP: springboot-hello
   CONTAINERAPPS_ENVIRONMENT: aca-environment
   RESOURCE_GROUP: rg-aca-azure-pipelines
+  CONTAINER_PORT: 8686
 
 
   
@@ -76,7 +77,7 @@ stages:
         containerAppName: '$(CONTAINERAPPS_APP)'
         resourceGroup: '$(RESOURCE_GROUP)'
         containerAppEnvironment: '$(CONTAINERAPPS_ENVIRONMENT)'
-        targetPort: '3500'
+        targetPort: '$(CONTAINER_PORT)'
         ingress: 'external'
 
 
