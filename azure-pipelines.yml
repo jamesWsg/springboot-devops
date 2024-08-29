@@ -22,29 +22,62 @@ pool:
 
 variables:
   dockerRegistryServiceConnection: dockerHub-connection
-  imageRepository: shengguowu/azure-devops
-  dockerfilePath: Dockerfile
-  tag: 1.0.0
+  azure-connection: azure-aca-connection-sp
+  IMAGE_REPOSITORY: shengguowu/azure-devops
+  DOCKERFILE_PATH: Dockerfile
+  TAG: '$(Build.BuildId)'
 
-steps:
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    # Junit set to false，beacuse no test
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
-    goals: 'package'
+  CONTAINERAPPS_APP: springboot-hello
+  CONTAINERAPPS_ENVIRONMENT: aca-environment
+  RESOURCE_GROUP: rg-aca-azure-pipelines
 
-- task: Docker@2
-  displayName: Build and push an image to container registry
-  inputs:
-    command: buildAndPush
-    repository: $(imageRepository)
-    dockerfile: $(dockerfilePath)
-    containerRegistry: $(dockerRegistryServiceConnection)
-    tags: |
-      $(tag)
+
+  
+stages:
+- stage: Build
+  displayName: Build and push image
+  jobs:
+  - job: maven build
+    steps:
+    - task: Maven@4
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.17'
+        jdkArchitectureOption: 'x64'
+        # Junit set to false，beacuse no test
+        publishJUnitResults: false
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'package'
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(IMAGE_REPOSITORY)
+        dockerfile: $(DOCKERFILE_PATH)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(TAG)
+
+- stage: Deploy to azure container app
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureContainerApps@1
+      displayName: Deploy new container version
+      inputs:
+        azureSubscription: 'azure-connection'
+        imageToDeploy: '$(IMAGE_REPOSITORY):$(TAG)'
+        containerAppName: '$(CONTAINERAPPS_APP)'
+        resourceGroup: '$(RESOURCE_GROUP)'
+        containerAppEnvironment: '$(CONTAINERAPPS_ENVIRONMENT)'
+        targetPort: '3500'
+        ingress: 'external'
+
+
+
