@@ -30,7 +30,7 @@ variables:
   CONTAINERAPPS_APP: springboot-hello
   CONTAINERAPPS_ENVIRONMENT: aca-environment
   RESOURCE_GROUP: rg-aca-azure-pipelines
-  CONTAINER_PORT: 8686
+  CONTAINER_PORT: 8080
 
 
   
